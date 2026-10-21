@@ -1,7 +1,5 @@
 # vecsearch
 
-[![CI](https://github.com/TejasBaid/hnsw-vector-search/actions/workflows/ci.yml/badge.svg)](https://github.com/TejasBaid/hnsw-vector-search/actions/workflows/ci.yml)
-
 A vector search engine in C++20, built around an HNSW index written from scratch. The goal
 is the core of a FAISS/hnswlib-style engine done carefully: hand-written NEON and AVX2
 distance kernels, a multithreaded build where searches never take a lock, tombstone deletes
@@ -62,7 +60,7 @@ when vecsearch also runs scalar kernels. See [Benchmarks](#benchmarks) for the m
   (`vsearch build|query|info`) and optional **Python bindings** (pybind11, NumPy in and out).
 - **Tooling:** GoogleTest suite (48 tests), ASan+UBSan and TSan presets, Google Benchmark
   kernel microbenchmarks, an end-to-end ANN benchmark driver, an hnswlib baseline script,
-  plotting, and CI on Linux (GCC/Clang, AVX2 and scalar) and macOS (NEON).
+  and plotting.
 
 ## Architecture
 
@@ -213,7 +211,7 @@ and factories, concepts on `parallel_for` and the byte streams, and a non-owning
 `FunctionRef` handles label predicates (one indirect call, no allocation). The code builds
 warning-free under
 `-Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion -Wold-style-cast -Werror`
-on Apple Clang 21, GCC 16 and (in CI) GCC 14 and Clang 18.
+on Apple Clang 21 and GCC 16.
 
 ## On-disk format (version 1)
 
@@ -541,7 +539,7 @@ All 48 pass in Release (Apple Clang 21 and GCC 16), under **ASan+UBSan**, and un
 **TSan** with no reports. One more check was run by hand: this machine is ARM, so the AVX2
 kernels cannot run natively here. They were compiled for x86-64 with `-Werror`, then run
 through SIMDe's AVX2→NEON translation against the scalar reference for dims 1–300 (worst
-relative error 8.6e-6). CI runs them natively on x86-64 Linux.
+relative error 8.6e-6). They have not been run natively on x86-64 hardware.
 
 ## Limitations and future work
 
