@@ -1,0 +1,143 @@
+{
+  "build": {
+    "memory": {
+      "codes_bytes": 0,
+      "graph_bytes": 144506904,
+      "mapped_bytes": 0,
+      "metadata_bytes": 62000024,
+      "total_bytes": 718506928,
+      "vectors_bytes": 512000000
+    }
+  },
+  "load_average_end": 4.99755859375,
+  "load_average_start": 5.083984375,
+  "loaded_from": "data/sift.vsi",
+  "machine": {
+    "hardware_threads": 10,
+    "simd": "neon"
+  },
+  "multithread": [],
+  "name": "sift",
+  "params": {
+    "M": 16,
+    "build_threads": 10,
+    "dim": 128,
+    "ef_construction": 200,
+    "k": 10,
+    "metric": "l2",
+    "n": 1000000,
+    "queries": 10000
+  },
+  "peak_rss_bytes": 1847017472,
+  "runs_per_point": 1,
+  "sweep": [
+    {
+      "ef": 10,
+      "mean_distance_computations": 394.0221,
+      "mean_latency_us": 28.2836292,
+      "p50_latency_us": 26.375,
+      "p99_latency_us": 67.417,
+      "qps": 35356.14163687311,
+      "recall": 0.70824
+    },
+    {
+      "ef": 16,
+      "mean_distance_computations": 501.2319,
+      "mean_latency_us": 37.0212292,
+      "p50_latency_us": 34.958,
+      "p99_latency_us": 84.25,
+      "qps": 27011.528833840017,
+      "recall": 0.80084
+    },
+    {
+      "ef": 24,
+      "mean_distance_computations": 633.3722,
+      "mean_latency_us": 48.899375,
+      "p50_latency_us": 46.5,
+      "p99_latency_us": 108.667,
+      "qps": 20450.159127800714,
+      "recall": 0.86569
+    },
+    {
+      "ef": 32,
+      "mean_distance_computations": 761.2879,
+      "mean_latency_us": 59.163095899999995,
+      "p50_latency_us": 57.083,
+      "p99_latency_us": 124.208,
+      "qps": 16902.428528930315,
+      "recall": 0.90282
+    },
+    {
+      "ef": 48,
+      "mean_distance_computations": 1011.0998,
+      "mean_latency_us": 80.8063375,
+      "p50_latency_us": 78.875,
+      "p99_latency_us": 160.917,
+      "qps": 12375.266977048675,
+      "recall": 0.94351
+    },
+    {
+      "ef": 64,
+      "mean_distance_computations": 1252.4859,
+      "mean_latency_us": 104.0183042,
+      "p50_latency_us": 101.958,
+      "p99_latency_us": 201.375,
+      "qps": 9613.692587001433,
+      "recall": 0.96359
+    },
+    {
+      "ef": 96,
+      "mean_distance_computations": 1716.4921,
+      "mean_latency_us": 148.06537920000002,
+      "p50_latency_us": 144.042,
+      "p99_latency_us": 289.125,
+      "qps": 6753.773268288769,
+      "recall": 0.9814
+    },
+    {
+      "ef": 128,
+      "mean_distance_computations": 2157.7239,
+      "mean_latency_us": 184.2479625,
+      "p50_latency_us": 182.958,
+      "p99_latency_us": 315.375,
+      "qps": 5427.468431299478,
+      "recall": 0.98902
+    },
+    {
+      "ef": 192,
+      "mean_distance_computations": 2990.0443,
+      "mean_latency_us": 259.48700840000004,
+      "p50_latency_us": 259.708,
+      "p99_latency_us": 424.291,
+      "qps": 3853.7574816019187,
+      "recall": 0.99524
+    },
+    {
+      "ef": 256,
+      "mean_distance_computations": 3771.2853,
+      "mean_latency_us": 343.0452416,
+      "p50_latency_us": 339.875,
+      "p99_latency_us": 601.625,
+      "qps": 2915.067398503743,
+      "recall": 0.99715
+    },
+    {
+      "ef": 384,
+      "mean_distance_computations": 5225.6596,
+      "mean_latency_us": 467.36194580000006,
+      "p50_latency_us": 473.417,
+      "p99_latency_us": 722.375,
+      "qps": 2139.6692841310914,
+      "recall": 0.9986
+    },
+    {
+      "ef": 512,
+      "mean_distance_computations": 6577.0089,
+      "mean_latency_us": 612.40635,
+      "p50_latency_us": 620.292,
+      "p99_latency_us": 934.0,
+      "qps": 1632.9027287192564,
+      "recall": 0.99902
+    }
+  ]
+}

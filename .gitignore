@@ -1,0 +1,31 @@
+# Build output
+build/
+cmake-build-*/
+out/
+*.o
+*.a
+*.so
+*.dylib
+compile_commands.json
+*.log
+
+# Datasets and generated indexes (multi-GB; regenerate with scripts/)
+data/
+*.vsi
+*.vsi.tmp
+*.hdf5
+*.fvecs
+*.ivecs
+*.bvecs
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+.cache/

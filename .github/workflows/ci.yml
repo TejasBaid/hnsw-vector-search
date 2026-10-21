@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: ubuntu-gcc14 (AVX2)
+            os: ubuntu-24.04
+            cxx: g++-14
+            native: "ON"
+          - name: ubuntu-clang18 (AVX2)
+            os: ubuntu-24.04
+            cxx: clang++-18
+            native: "ON"
+          - name: ubuntu-gcc14 (scalar fallback)
+            os: ubuntu-24.04
+            cxx: g++-14
+            native: "OFF"   # no -march=native -> AVX2 path compiled out
+          - name: macos-arm64 (NEON)
+            os: macos-15
+            cxx: clang++
+            native: "ON"
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: >
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          -DCMAKE_CXX_COMPILER=${{ matrix.cxx }} -DVS_NATIVE=${{ matrix.native }}
+      - name: Build
+        run: cmake --build build -j 4
+      - name: Report SIMD backend
+        run: ./build/distance_bench --benchmark_filter='L2/.*/128$' --benchmark_min_time=0.05s
+      - name: Test
+        run: ctest --test-dir build --output-on-failure -j 4
+
+  sanitizers:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: asan+ubsan (linux), os: ubuntu-24.04, preset: asan, cxx: clang++-18 }
+          - { name: tsan (linux),       os: ubuntu-24.04, preset: tsan, cxx: clang++-18 }
+          - { name: asan+ubsan (macos), os: macos-15,     preset: asan, cxx: clang++ }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Relax ASLR entropy for TSan (kernel >= 6.5 workaround)
+        if: runner.os == 'Linux'
+        run: sudo sysctl vm.mmap_rnd_bits=28
+      - name: Configure
+        run: cmake --preset ${{ matrix.preset }} -DCMAKE_CXX_COMPILER=${{ matrix.cxx }}
+      - name: Build
+        run: cmake --build --preset ${{ matrix.preset }} -j 4
+      - name: Test
+        run: ctest --preset ${{ matrix.preset }} -j 2
+
+  format:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pinned clang-format
+        run: pip install clang-format==21.1.8
+      - name: clang-format check
+        run: |
+          find include src apps bench tests python \( -name '*.hpp' -o -name '*.cpp' \) -print0 \
+            | xargs -0 clang-format --dry-run --Werror

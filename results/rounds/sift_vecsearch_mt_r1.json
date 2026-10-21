@@ -1,0 +1,65 @@
+{
+  "build": {
+    "memory": {
+      "codes_bytes": 0,
+      "graph_bytes": 144506904,
+      "mapped_bytes": 0,
+      "metadata_bytes": 62000024,
+      "total_bytes": 718506928,
+      "vectors_bytes": 512000000
+    }
+  },
+  "load_average_end": 3.98046875,
+  "load_average_start": 2.5166015625,
+  "loaded_from": "data/sift.vsi",
+  "machine": {
+    "hardware_threads": 10,
+    "simd": "neon"
+  },
+  "multithread": [
+    {
+      "ef": 16,
+      "qps": 166436.4296057121,
+      "recall": 0.80084,
+      "threads": 10
+    },
+    {
+      "ef": 32,
+      "qps": 103542.80401534024,
+      "recall": 0.90282,
+      "threads": 10
+    },
+    {
+      "ef": 64,
+      "qps": 60496.90622148914,
+      "recall": 0.96359,
+      "threads": 10
+    },
+    {
+      "ef": 128,
+      "qps": 33920.46354131566,
+      "recall": 0.98902,
+      "threads": 10
+    },
+    {
+      "ef": 256,
+      "qps": 18700.65510732423,
+      "recall": 0.99715,
+      "threads": 10
+    }
+  ],
+  "name": "sift",
+  "params": {
+    "M": 16,
+    "build_threads": 10,
+    "dim": 128,
+    "ef_construction": 200,
+    "k": 10,
+    "metric": "l2",
+    "n": 1000000,
+    "queries": 10000
+  },
+  "peak_rss_bytes": 1914617856,
+  "runs_per_point": 5,
+  "sweep": []
+}

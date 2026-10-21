@@ -1,0 +1,65 @@
+{
+  "build": {
+    "memory": {
+      "codes_bytes": 0,
+      "graph_bytes": 171024928,
+      "mapped_bytes": 0,
+      "metadata_bytes": 73378004,
+      "total_bytes": 717808532,
+      "vectors_bytes": 473405600
+    }
+  },
+  "load_average_end": 6.2314453125,
+  "load_average_start": 4.5068359375,
+  "loaded_from": "data/glove.vsi",
+  "machine": {
+    "hardware_threads": 10,
+    "simd": "neon"
+  },
+  "multithread": [
+    {
+      "ef": 16,
+      "qps": 144661.62510294665,
+      "recall": 0.55489,
+      "threads": 10
+    },
+    {
+      "ef": 32,
+      "qps": 89322.83190999931,
+      "recall": 0.6689,
+      "threads": 10
+    },
+    {
+      "ef": 64,
+      "qps": 52852.51637437023,
+      "recall": 0.76298,
+      "threads": 10
+    },
+    {
+      "ef": 128,
+      "qps": 30219.65920830972,
+      "recall": 0.83209,
+      "threads": 10
+    },
+    {
+      "ef": 256,
+      "qps": 14923.33694523355,
+      "recall": 0.88425,
+      "threads": 10
+    }
+  ],
+  "name": "glove",
+  "params": {
+    "M": 16,
+    "build_threads": 10,
+    "dim": 100,
+    "ef_construction": 200,
+    "k": 10,
+    "metric": "l2",
+    "n": 1183514,
+    "queries": 10000
+  },
+  "peak_rss_bytes": 1887289344,
+  "runs_per_point": 5,
+  "sweep": []
+}

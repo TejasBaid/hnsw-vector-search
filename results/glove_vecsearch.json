@@ -1,0 +1,59 @@
+{
+  "build": {
+    "footprint_delta_bytes": 746439208,
+    "memory": {
+      "codes_bytes": 0,
+      "graph_bytes": 171024928,
+      "mapped_bytes": 0,
+      "metadata_bytes": 77079652,
+      "total_bytes": 721510180,
+      "vectors_bytes": 473405600
+    },
+    "rss_delta_bytes": 751124480,
+    "seconds": 54.199208417,
+    "vectors_per_second": 21836.37057748581
+  },
+  "integrity": {
+    "avg_degree_level0": 22.974312935884154,
+    "max_level": 4,
+    "ok": true,
+    "reachable_level0": 1183475
+  },
+  "load_average_end": 8.98876953125,
+  "load_average_start": 3.24462890625,
+  "machine": {
+    "hardware_threads": 10,
+    "simd": "neon"
+  },
+  "multithread": [],
+  "name": "glove-100",
+  "params": {
+    "M": 16,
+    "build_threads": 10,
+    "dim": 100,
+    "ef_construction": 200,
+    "k": 10,
+    "metric": "cosine",
+    "n": 1183514,
+    "queries": 10000
+  },
+  "peak_rss_bytes": 2710110208,
+  "persistence": {
+    "file_bytes": 656266202,
+    "load_copy_seconds": 0.817755334,
+    "load_mmap_seconds": 0.052535958,
+    "mmap_sweep_point": {
+      "ef": 64,
+      "mean_distance_computations": 1645.6757,
+      "mean_latency_us": 94.2569417,
+      "p50_latency_us": 91.625,
+      "p99_latency_us": 155.75,
+      "qps": 10609.298179679852,
+      "recall": 0.76298
+    },
+    "results_identical": true,
+    "save_seconds": 0.510308375
+  },
+  "runs_per_point": 3,
+  "sweep": []
+}

@@ -1,0 +1,28 @@
+{
+  "name": "sift-1m",
+  "runs_per_point": 3,
+  "load_average_start": 2.35107421875,
+  "load_average_end": 11.6494140625,
+  "library": "hnswlib unknown",
+  "machine": {
+    "platform": "macOS-26.4.1-arm64-arm-64bit",
+    "python": "3.12.15"
+  },
+  "params": {
+    "n": 1000000,
+    "dim": 128,
+    "queries": 10000,
+    "metric": "l2",
+    "M": 16,
+    "ef_construction": 200,
+    "k": 10,
+    "build_threads": 10
+  },
+  "build": {
+    "seconds": 69.2753463749832,
+    "vectors_per_second": 14435.149765792023,
+    "footprint_delta_bytes": 803619416
+  },
+  "sweep": [],
+  "multithread": []
+}

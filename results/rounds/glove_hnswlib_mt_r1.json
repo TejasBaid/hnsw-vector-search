@@ -1,0 +1,55 @@
+{
+  "name": "glove",
+  "runs_per_point": 5,
+  "load_average_start": 3.33544921875,
+  "load_average_end": 4.5068359375,
+  "library": "hnswlib unknown",
+  "machine": {
+    "platform": "macOS-26.4.1-arm64-arm-64bit",
+    "python": "3.12.15"
+  },
+  "params": {
+    "n": 1183514,
+    "dim": 100,
+    "queries": 10000,
+    "metric": "cosine",
+    "M": 16,
+    "ef_construction": 200,
+    "k": 10,
+    "build_threads": 10
+  },
+  "build": null,
+  "sweep": [],
+  "multithread": [
+    {
+      "ef": 16,
+      "threads": 10,
+      "recall": 0.56024,
+      "qps": 99690.9580501824
+    },
+    {
+      "ef": 32,
+      "threads": 10,
+      "recall": 0.67066,
+      "qps": 62199.46655553649
+    },
+    {
+      "ef": 64,
+      "threads": 10,
+      "recall": 0.7623,
+      "qps": 36887.341510529506
+    },
+    {
+      "ef": 128,
+      "threads": 10,
+      "recall": 0.83157,
+      "qps": 21198.46402393051
+    },
+    {
+      "ef": 256,
+      "threads": 10,
+      "recall": 0.88447,
+      "qps": 11696.621800954068
+    }
+  ]
+}

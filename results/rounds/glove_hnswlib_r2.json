@@ -1,0 +1,97 @@
+{
+  "name": "glove",
+  "runs_per_point": 1,
+  "load_average_start": 2.56494140625,
+  "load_average_end": 2.11474609375,
+  "library": "hnswlib unknown",
+  "machine": {
+    "platform": "macOS-26.4.1-arm64-arm-64bit",
+    "python": "3.12.15"
+  },
+  "params": {
+    "n": 1183514,
+    "dim": 100,
+    "queries": 10000,
+    "metric": "cosine",
+    "M": 16,
+    "ef_construction": 200,
+    "k": 10,
+    "build_threads": 10
+  },
+  "build": null,
+  "sweep": [
+    {
+      "ef": 10,
+      "recall": 0.47419,
+      "qps": 26335.830071583943,
+      "mean_latency_us": 37.97108339786064
+    },
+    {
+      "ef": 16,
+      "recall": 0.56024,
+      "qps": 19174.41213102247,
+      "mean_latency_us": 52.152837498579174
+    },
+    {
+      "ef": 24,
+      "recall": 0.62714,
+      "qps": 14745.330644412554,
+      "mean_latency_us": 67.81807910010684
+    },
+    {
+      "ef": 32,
+      "recall": 0.67066,
+      "qps": 11958.84900267804,
+      "mean_latency_us": 83.62008749973029
+    },
+    {
+      "ef": 48,
+      "recall": 0.72625,
+      "qps": 8828.483097051983,
+      "mean_latency_us": 113.26974169933237
+    },
+    {
+      "ef": 64,
+      "recall": 0.7623,
+      "qps": 6990.407587964294,
+      "mean_latency_us": 143.05317499965895
+    },
+    {
+      "ef": 96,
+      "recall": 0.80589,
+      "qps": 5104.3246344379995,
+      "mean_latency_us": 195.91230409860145
+    },
+    {
+      "ef": 128,
+      "recall": 0.83157,
+      "qps": 4003.521297124077,
+      "mean_latency_us": 249.78011250204872
+    },
+    {
+      "ef": 192,
+      "recall": 0.86333,
+      "qps": 2834.802051870991,
+      "mean_latency_us": 352.7583167015109
+    },
+    {
+      "ef": 256,
+      "recall": 0.88447,
+      "qps": 2219.188139820331,
+      "mean_latency_us": 450.6152416986879
+    },
+    {
+      "ef": 384,
+      "recall": 0.90966,
+      "qps": 1546.723999095671,
+      "mean_latency_us": 646.5277584007708
+    },
+    {
+      "ef": 512,
+      "recall": 0.9255,
+      "qps": 1190.472269569589,
+      "mean_latency_us": 840.00276660081
+    }
+  ],
+  "multithread": []
+}
