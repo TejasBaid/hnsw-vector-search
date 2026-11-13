@@ -110,9 +110,13 @@ struct HnswIndex::Impl {
 
   static constexpr std::uint8_t kStateDeleted = 1;  // tombstone (persisted)
   static constexpr std::uint8_t kStateReady = 2;    // fully initialised (runtime only)
+  static constexpr std::uint8_t kStateLinked = 4;   // linked on every level (runtime only)
 
   [[nodiscard]] std::uint8_t load_state(node_id id) const noexcept {
     return detail::load_acquire(state[id]);
+  }
+  [[nodiscard]] bool is_linked(node_id id) const noexcept {
+    return (load_state(id) & kStateLinked) != 0;
   }
   [[nodiscard]] bool is_deleted(node_id id) const noexcept {
     return (load_state(id) & kStateDeleted) != 0;

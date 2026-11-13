@@ -105,6 +105,50 @@ TEST(Concurrency, SearchesDuringInsertsSeeOnlyInsertedLabels) {
   EXPECT_GE(self_hits, (n / 97) * 98 / 100);
 }
 
+// Regression: a search could descend the upper layers onto a node whose insert was
+// still in progress (its layer-0 list not yet written) and start the layer-0 beam
+// there. With a predicate rejecting that node, the beam had nothing to expand and
+// returned no results at all.
+TEST(Concurrency, PredicateSearchesDuringInsertsNeverComeBackEmpty) {
+  const std::size_t seed_n = 1'000 / kScale;
+  const std::size_t n = 3'000 / kScale;
+  const auto data = test::clustered_data(n, kDim, 314);
+  for (int round = 0; round < 10; ++round) {
+    HnswIndex index({.dim = kDim, .metric = Metric::Cosine, .M = 16, .ef_construction = 128,
+                     .capacity = n});
+    index.add_batch({data.data(), seed_n * kDim}, test::iota_labels(seed_n), 0);
+    // Accept only the seed labels, so every in-flight insert is rejected.
+    const auto seeded = [](label_t label) { return label < seed_n; };
+
+    std::atomic<bool> done{false};
+    std::atomic<std::size_t> empty{0};
+    std::atomic<std::size_t> searches{0};
+    test::ThreadGroup readers;
+    for (int t = 0; t < 6; ++t) {
+      readers.spawn([&] {
+        while (!done.load(std::memory_order_acquire)) {
+          for (std::size_t i = 0; i < seed_n; i += 5) {
+            SearchParams params{.k = 1, .ef = 64};
+            params.predicate = seeded;
+            if (index.search({data.data() + i * kDim, kDim}, params).empty()) empty.fetch_add(1);
+            searches.fetch_add(1, std::memory_order_relaxed);
+          }
+        }
+      });
+    }
+    for (std::size_t start = seed_n; start < n; start += 400) {
+      const std::size_t count = std::min<std::size_t>(400, n - start);
+      std::vector<label_t> labels(count);
+      for (std::size_t i = 0; i < count; ++i) labels[i] = start + i;
+      index.add_batch({data.data() + start * kDim, count * kDim}, labels, 0);
+    }
+    done.store(true, std::memory_order_release);
+    readers.join();
+    EXPECT_GT(searches.load(), 0U);
+    EXPECT_EQ(empty.load(), 0U) << "round " << round;
+  }
+}
+
 TEST(Concurrency, DeletesAreNeverReturnedOnceAcknowledged) {
   const std::size_t n = 10'000 / kScale;
   const auto data = test::clustered_data(n, kDim, 300);

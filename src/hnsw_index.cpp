@@ -106,7 +106,13 @@ struct AcceptLive {
 // ---- core graph algorithms -------------------------------------------------
 
 /// Greedy best-neighbour walk on layers (from_level, to_level].
-template <class Dist>
+///
+/// With `kLinkedOnly`, the walk never steps onto a node whose insert is still in
+/// progress. Inserts link a node top-down, so its upper-layer edges are visible
+/// before its layer-0 list is written; a search that descended onto such a node
+/// would start its layer-0 beam from a node with no edges and, when a filter or
+/// predicate rejects that node, return nothing at all.
+template <bool kLinkedOnly = false, class Dist>
 Candidate greedy_descend(const Impl& ix, const Dist& dist, Candidate cur, int from_level,
                          int to_level, std::size_t& ndist) {
   for (int level = from_level; level > to_level; --level) {
@@ -117,6 +123,9 @@ Candidate greedy_descend(const Impl& ix, const Dist& dist, Candidate cur, int fr
       const std::uint32_t n = Impl::load_acquire(ll[0]);
       for (std::uint32_t j = 0; j < n; ++j) {
         const node_id nb = Impl::load_acquire(ll[1 + j]);
+        if constexpr (kLinkedOnly) {
+          if (!ix.is_linked(nb)) continue;
+        }
         const float d = dist(nb);
         ++ndist;
         if (d < cur.dist) {
@@ -536,6 +545,7 @@ void HnswIndex::add(label_t label, std::span<const float> vector, std::uint64_t 
 
   // 4. Link into the graph.
   insert_node(ix, id, level);
+  ix.set_state_bits(id, Impl::kStateLinked);  // searches may now descend onto it
 }
 
 void HnswIndex::add_batch(std::span<const float> vectors, std::span<const label_t> labels,
@@ -609,7 +619,7 @@ std::vector<SearchResult> HnswIndex::search(std::span<const float> query,
   auto run = [&](const auto& dist) {
     Candidate cur{dist(entry_id(packed)), entry_id(packed)};
     ++stats.distance_computations;
-    cur = greedy_descend(ix, dist, cur, entry_level(packed), 0, stats.distance_computations);
+    cur = greedy_descend<true>(ix, dist, cur, entry_level(packed), 0, stats.distance_computations);
     auto visited = ix.visited->acquire();
     const std::array<Candidate, 1> eps{cur};
     if (filtered) {

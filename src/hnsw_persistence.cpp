@@ -338,7 +338,8 @@ HnswIndex HnswIndex::load(const std::filesystem::path& path, LoadMode mode, Simd
   for (node_id i = 0; i < n; ++i) {
     const bool is_deleted = (ix.state[i] & Impl::kStateDeleted) != 0;
     ix.state[i] =
-        static_cast<std::uint8_t>((is_deleted ? Impl::kStateDeleted : 0) | Impl::kStateReady);
+        static_cast<std::uint8_t>((is_deleted ? Impl::kStateDeleted : 0) | Impl::kStateReady |
+                                  Impl::kStateLinked);
     if (is_deleted) {
       ++deleted;
       continue;
